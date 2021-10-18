@@ -776,6 +776,30 @@ function save_batch($tab,$cols,$vals)           //---------  [FILED = ARRAY[VALU
     return $res;
 }
 //---------------------------  IMAGE UPLOAD FUNCTION ---------------
+function update_fields($tab,$vals,$where){           //---------  [FILED = ARRAY[VALUE1,VALUE2]]
+
+    $wher = (count($where)) ? 'WHERE ' : '';
+    foreach ($where as $k => $v){                                  //-------   $k = column name ---------
+        $wher .= "`$k` = '$v' AND ";
+    }
+    $wher = substr($wher,0, -4);
+    //-----VALS-----
+    foreach ($vals as $k => $v) {
+        $val_str .= "`$k` = '$v' AND ";
+    }
+    $val_str = substr($val_str,0, -4);
+    // echo $val_str;die;
+    // $str = "INSERT INTO  `$tab` ($keys) VALUES $val_str ON DUPLICATE KEY UPDATE $updt_k;";
+    $str =  " UPDATE $tab SET $val_str $wher ; ";
+    // echo $str;die;
+    $conn = $GLOBALS['conn'];
+    //-------------------QUERY IN DB------------------
+    $res = (!mysqli_query($conn,$str)) ? "Error description: " . mysqli_error($conn) : $where["id"];
+    // mysqli_close($conn);
+    // print_r($vals);die;
+    return $res;
+}
+//---------------------------  IMAGE UPLOAD FUNCTION ---------------
 function save_image($img,$new_user_id){
     $ms = round(microtime(true) * 1000);
     $ext = '.'.pathinfo(basename($img['name']))['extension'];

@@ -47,8 +47,7 @@ function get_inspect($post){
   $fields = ["*"];
   if(isset($filter['id'])){
     $inspects = get_where_in_fk('inspection',$fields,$filter);
-    $inspects[0]["users"] = get_where_in_fk('inspection_assign',["email"],["inspection_id"=>$filter['id'],"status"=>"1"]);
-    
+    $inspects[0]["users"] = get_where_in_fk('inspection_assign',["user_id"],["inspection_id"=>$filter['id'],"status"=>"1"]);
   }else{
     $inspects = get_where_in_fk('all_inspects',$fields,$filter);
   }

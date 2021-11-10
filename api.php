@@ -106,7 +106,7 @@ function save_users_access($post){
   // foreach ($post["users"] as $k => $v) {
   //   $data[] = ["inspection_id"=> $post["form_id"],"email"=>$v ];
   // }
-  $cols = ["user_id","access_name","link","logo","status"];
+  $cols = ["user_id","access_name","link","status"];
 
   $resp = save_batch('user_access',$cols,$data);
 

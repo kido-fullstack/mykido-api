@@ -170,13 +170,13 @@ function save_inspect($post){
 
 //---------------------------------------- GET LAST ORDER ----------------
 function assign_users($post){
-
   foreach ($post["users"] as $k => $v) {
-    $data[] = ["inspection_id"=> $post["form_id"],"email"=>$v ];
+    $data[] = ["inspection_id"=> $post["form_id"],"user_id"=>$v ];
   }
-  $cols = ["inspection_id","email"];
-  save_batch('inspection_assign',$cols,$data);
-
+  $cols = ["inspection_id","user_id"];
+  $res = save_batch('inspection_assign',$cols,$data);
+  close_DB_conn();
+  echo json_encode($res);die;
 }
 //---------------------------------------- GET LAST ORDER ----------------
 function send_email($post){

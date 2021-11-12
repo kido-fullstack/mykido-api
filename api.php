@@ -114,6 +114,20 @@ function save_users_access($post){
 }
 
 
+function save_users_creds($post){
+
+  $data = count(json_decode($post['user_access'],true)) ? json_decode($post['user_access'],true) : [];
+  // foreach ($post["users"] as $k => $v) {
+  //   $data[] = ["inspection_id"=> $post["form_id"],"email"=>$v ];
+  // }
+  $cols = ["user_id","access_name","username","password"];
+
+  $resp = save_batch('user_access',$cols,$data);
+
+  echo json_encode($resp);die;
+
+}
+
 function get_users($post){
   $filter = [];
   if(isset($post['filter'])){

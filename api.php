@@ -22,6 +22,7 @@ $apis = [
             'get_users'=>'get_users',
             'get_users_access'=>'get_users_access',
             'save_users_access'=>'save_users_access',
+            'save_users_creds'=>'save_users_creds',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}

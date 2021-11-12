@@ -121,7 +121,7 @@ function save_users_creds($post){
   // foreach ($post["users"] as $k => $v) {
   //   $data[] = ["inspection_id"=> $post["form_id"],"email"=>$v ];
   // }
-  $cols = ["user_id","access_name","username","password"];
+  $cols = ["user_id","access_name","link","username","password"];
 
   $resp = save_batch('user_access',$cols,$data);
 

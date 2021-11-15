@@ -24,6 +24,7 @@ $apis = [
             'save_users_access'=>'save_users_access',
             'save_users_creds'=>'save_users_creds',
             'submitted_get_users'=>'submitted_get_users',
+            'save_tab'=>'save_tab',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -194,6 +195,18 @@ function assign_users($post){
   close_DB_conn();
   echo json_encode($res);die;
 }
+
+//---------------------------------------- SAVE TO TABLE COMMON ----------------
+function save_tab($post){
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $tbl_name = $post["tbl_name"];
+  $res = save_batch($tbl_name,$cols,$data);
+  close_DB_conn();
+  echo json_encode($res);die;
+}
+
+
 //---------------------------------------- GET LAST ORDER ----------------
 function send_email($post){
   require_once __DIR__ . '/email/send_email.php';  //-------  php_mailer() defined here.

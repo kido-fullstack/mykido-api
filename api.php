@@ -175,7 +175,7 @@ function get_user_inspect($post){
 
 function save_inspect($post){
   // $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
-  $data["content"] = $post["content"];  $data["title"] = $post["title"];$data["due_date"] = $post["due_date"];
+  $data["content"] = $post["content"];  $data["title"] = $post["title"];$data["due_date"] = $post["due_date"];$data["schedule"] = $post["schedule"];$data["team"] = $post["team"];
   $data["submit_after_due_date"] = $post["submit_after_due_date"];
   $data['updated_on'] =  date('Y-m-d H:i:s');
   isset($post["id"]) ? $data["id"] = $post["id"] :$data["added_on"] = date('Y-m-d H:i:s'); 

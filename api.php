@@ -24,6 +24,8 @@ $apis = [
             'save_users_access'=>'save_users_access',
             'save_users_creds'=>'save_users_creds',
             'create_new_user'=>'create_new_user',
+            'submitted_get_users'=>'submitted_get_users',
+            'save_tab'=>'save_tab',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -208,6 +210,18 @@ function assign_users($post){
   close_DB_conn();
   echo json_encode($res);die;
 }
+
+//---------------------------------------- SAVE TO TABLE COMMON ----------------
+function save_tab($post){
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $tbl_name = $post["tbl_name"];
+  $res = save_batch($tbl_name,$cols,$data);
+  close_DB_conn();
+  echo json_encode($res);die;
+}
+
+
 //---------------------------------------- GET LAST ORDER ----------------
 function send_email($post){
   require_once __DIR__ . '/email/send_email.php';  //-------  php_mailer() defined here.
@@ -250,6 +264,23 @@ function get_order_dets($post){
   echo json_encode($orders);die;
 }
 
-
 //---------------------------------------- SAVE ORDER ----------------
+
+function submitted_get_users($post){
+  $filter = [];
+  if(isset($post['filter'])){
+    $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  }
+  $filter['status'] = '1';
+  // $fields = ['id','name','updated_on','email','is_admin','team','manula_links'];
+  // if(isset($filter['id'])){
+  $fields = ["*"];
+  // }
+  // print_r($filter);die;
+  // (isset($filter['password'])) ? $filter['password'] = md5($filter['password']) : false;
+  // print_r($filter);die;
+  $inspects = get_where_in_fk('inspection_assign',$fields,$filter);
+  close_DB_conn();
+  echo json_encode($inspects);die;
+}
 

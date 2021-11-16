@@ -23,6 +23,7 @@ $apis = [
             'get_users_access'=>'get_users_access',
             'save_users_access'=>'save_users_access',
             'save_users_creds'=>'save_users_creds',
+            'create_new_user'=>'create_new_user',
             'submitted_get_users'=>'submitted_get_users',
             'save_tab'=>'save_tab',
             'upload_file'=>'upload_file',
@@ -128,6 +129,22 @@ function update_password($post){
   echo json_encode($resp);die;
 }
 
+function create_new_user($post){
+
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+
+  // print_r($data);die;
+  if(count($data)){
+    // $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
+    isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
+    $values[] = $data;
+    $resp = save_batch('users',$cols,$values);
+  }
+
+  echo json_encode($resp);die;
+}
+
 function update_user_manula_links($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
@@ -177,8 +194,8 @@ function get_users($post){
   if(isset($post['filter'])){
     $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
   }
-  $filter['status'] = ['1','2'];
-  $fields = ['id','name','updated_on','email','is_admin','team','manula_links'];
+  // $filter['status'] = ['1','2'];
+  $fields = ['id','name','updated_on','email','is_admin','team','manula_links','status'];
   if(isset($filter['id'])){
     $fields = ["*"];
   }

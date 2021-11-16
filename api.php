@@ -91,10 +91,12 @@ function update_password($post){
 function create_new_user($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+
   // print_r($data);die;
   if(count($data)){
-    $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
-    $data["password"] = md5($data["password"]);
+    // $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
+    isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
     $values[] = $data;
     $resp = save_batch('users',$cols,$values);
   }
@@ -151,8 +153,8 @@ function get_users($post){
   if(isset($post['filter'])){
     $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
   }
-  $filter['status'] = ['1','2'];
-  $fields = ['id','name','updated_on','email','is_admin','team','manula_links'];
+  // $filter['status'] = ['1','2'];
+  $fields = ['id','name','updated_on','email','is_admin','team','manula_links','status'];
   if(isset($filter['id'])){
     $fields = ["*"];
   }

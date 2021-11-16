@@ -25,6 +25,7 @@ $apis = [
             'save_users_creds'=>'save_users_creds',
             'submitted_get_users'=>'submitted_get_users',
             'save_tab'=>'save_tab',
+            'upload_file'=>'upload_file',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -57,6 +58,46 @@ function get_inspect($post){
   close_DB_conn();
   echo json_encode($inspects);die;
 }
+
+function upload_file($post){
+  $data = $post;
+  // unset($data["api"]);
+  // $static_dir =  (json_decode(file_get_contents(".under6"),true))["STATIC_DIR"];
+  $doc_dir =  "uploads/".$post["user_id"];
+
+  if(isset($post["user_id"])){
+    $file_path = "Error";
+    foreach ($_FILES as $k => $v) {
+      // print_r($k."<br>");
+      $file_path = save_doc($v,$doc_dir);
+      // $data[$k] = str_replace($static_dir,"",$file_path);
+    }
+    print_r($file_path);
+  }
+  // foreach ($data as $k => $v) {
+  //   if($k == "aadhar"  || $k ==  "CV" || $k == "image"){
+  //     $k1 = strtolower("upload_".$k);
+  //     $data[$k1] = $v;
+  //     unset($data[$k]);
+  //   }
+  // }
+  // $new_sdt_user_id = save_table('teachers_profile',$data,".under6");
+  // if(!isset($post["id"])){
+  //   foreach ($_FILES as $k => $v) {
+  //       $file_path = save_doc($v,$static_dir."uploads/profile/".$new_sdt_user_id."/".$k);
+  //       // print_r($file_path."<br>");
+  //       if($k == "aadhar"  || $k ==  "CV" || $k == "image"){
+  //         $data[strtolower("upload_".$k)] = str_replace($static_dir,"",$file_path);
+  //       }else{
+  //         $data[strtolower($k)] = str_replace($static_dir,"",$file_path);
+  //       }
+  //       $data["id"] = $new_sdt_user_id;
+  //       save_table('teachers_profile',$data,".under6");
+  //   }
+  // }
+  // save_doc($_FILES["file"]);
+}
+
 
 
 function get_users_access($post){

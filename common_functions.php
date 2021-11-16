@@ -838,24 +838,24 @@ function resize_image($file, $w, $h,$ext) {
   return $dst;
 }
 
-    //---------------------------  DOCUMENT UPLOAD FUNCTION ---------------
-    function save_doc($doc){
-        $user_id = $_SESSION['user_id'];
+//---------------------------  DOCUMENT UPLOAD FUNCTION ---------------
+function save_doc($doc,$doc_dir){
+        // $user_id = $_SESSION['user_id'];
         $ms = round(microtime(true) * 1000);
         $ext = '.'.pathinfo(basename($doc['name']))['extension'];
-        $filename = pathinfo($doc['name'], PATHINFO_FILENAME);
-        $newfilename =$filename . '_'.$user_id ;
-        $doc_dir = "../assets/assignment_doc";
+        $newfilename = pathinfo($doc['name'], PATHINFO_FILENAME);
+        // $newfilename =$filename . '_'.$user_id ;
+        // $doc_dir = "../assets/assignment_doc";
         !(is_dir($doc_dir)) ? (mkdir($doc_dir, 0755, true)) : FALSE;
         $move_to = $doc_dir."/".$newfilename.$ext;
-        print_r($move_to);
+        // print_r($move_to);
         file_exists($move_to) ? rename($move_to,$doc_dir."/".$newfilename.'_'.$ms.$ext) : FALSE;
         $file_type=$doc['type'];
         if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="image/jpeg" ||  $file_type=="image/png" || $file_type=="application/vnd.ms-excel") {
             if(move_uploaded_file($doc['tmp_name'], $move_to)){
-                return substr($move_to, 3);}
-            else {
-                return '';}
+                // return substr($move_to, 3);}
+                return $move_to;}
+            else {return '';}
             }
         else {
              echo "You may only upload PDFs, EXCEL, PNG,JPEGs or GIF files.<br>"; }

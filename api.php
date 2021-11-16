@@ -23,6 +23,7 @@ $apis = [
             'get_users_access'=>'get_users_access',
             'save_users_access'=>'save_users_access',
             'save_users_creds'=>'save_users_creds',
+            'create_new_user'=>'create_new_user',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -77,6 +78,20 @@ function update_password($post){
   // print_r($data);die;
   if(count($data)){
     $cols = ["id","name","email","password"];
+    $data["password"] = md5($data["password"]);
+    $values[] = $data;
+    $resp = save_batch('users',$cols,$values);
+  }
+
+  echo json_encode($resp);die;
+}
+
+function create_new_user($post){
+
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  // print_r($data);die;
+  if(count($data)){
+    $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
     $data["password"] = md5($data["password"]);
     $values[] = $data;
     $resp = save_batch('users',$cols,$values);

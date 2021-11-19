@@ -320,9 +320,10 @@ function submitted_get_users($post){
   $fields = ["*"];
   // }
   // print_r($filter);die;
-  // (isset($filter['password'])) ? $filter['password'] = md5($filter['password']) : false;
+  $limit = isset($post['limit']) ? $post['limit'] : 1;
+  // (isset($filter['submitted_on'])) ? $filter['submitted_on'] = md5($filter['submitted_on']) : false;
   // print_r($filter);die;
-  $inspects = get_where_in_fk('inspection_assign',$fields,$filter);
+  $inspects = get_where_in_fk('inspection_assign',$fields,$filter,$limit);
   close_DB_conn();
   echo json_encode($inspects);die;
 }

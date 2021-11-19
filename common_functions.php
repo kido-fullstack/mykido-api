@@ -324,8 +324,9 @@ function check_user_exists($data){
     return $res;
 }
 
-function get_where_in_fk($tabl,$fields,$where){
+function get_where_in_fk($tabl,$fields,$where,$limit=0){
     $flds = '';
+    $lmt = ($limit) ? "LIMIT ".$limit." " : "";
     $wher = (count($where)) ? 'WHERE ' : '';
     $fk_vals = [];
     foreach ($where as $k => $v){                                  //-------   $k = column name ---------
@@ -350,9 +351,9 @@ function get_where_in_fk($tabl,$fields,$where){
     $wher = substr($wher,0, -4);
     $flds = substr($flds,0, -1);
     $fields[0] == '*' ? $flds = '*' : FALSE;
-    $sql = "SELECT $flds FROM `$tabl` $wher";
+    $sql = "SELECT $flds FROM `$tabl` $wher $lmt";
     // echo $sql;// echo '<br>';
-    //  die;
+    // die;
     // $creds = json_decode(file_get_contents(".creds"),true);
     // $user = $creds["DB_USER"];$pass = $creds["DB_PASS"];$dbname = $creds["DB_NAME"];
     // $user = "smduser";$pass = "@smduser123#";

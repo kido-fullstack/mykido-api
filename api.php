@@ -52,7 +52,10 @@ function get_inspect($post){
   $fields = ["*"];
   if(isset($filter['id'])){
     $inspects = get_where_in_fk('inspection',$fields,$filter);
-    $inspects[0]["users"] = get_where_in_fk('inspection_assign',["user_id"],["inspection_id"=>$filter['id'],"status"=>"1"]);
+    $inspects[0]["users"] = get_query_result("SELECT DISTINCT `user_id` FROM `inspection_assign` WHERE `inspection_id` = '".$filter['id']."' AND  `status` = '1' ");
+    // $tst = get_query_result("SELECT DISTINCT `user_id` FROM `inspection_assign` WHERE `inspection_id` = '".$filter['id']."' AND  `status` = '1' ");
+    // print_r($tst);die;
+    // $inspects[0]["users"] = get_where_in_fk('inspection_assign',["user_id"],["inspection_id"=>$filter['id'],"status"=>"1"]);
   }else{
     $inspects = get_where_in_fk('all_inspects',$fields,$filter);
   }

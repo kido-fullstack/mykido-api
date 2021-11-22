@@ -248,8 +248,9 @@ function save_inspect($post){
 
 //---------------------------------------- GET LAST ORDER ----------------
 function assign_users($post){
+  $now =  date('Y-m-d H:i:s');
   foreach ($post["users"] as $k => $v) {
-    $data[] = ["inspection_id"=> $post["form_id"],"user_id"=>$v ];
+    $data[] = ["inspection_id"=> $post["form_id"],"user_id"=>$v,"assigned_on"=>$now];
   }
   $cols = ["inspection_id","user_id"];
   $res = save_batch('inspection_assign',$cols,$data);

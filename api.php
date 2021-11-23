@@ -252,7 +252,7 @@ function assign_users($post){
   foreach ($post["users"] as $k => $v) {
     $data[] = ["inspection_id"=> $post["form_id"],"user_id"=>$v,"assigned_on"=>$now];
   }
-  $cols = ["inspection_id","user_id"];
+  $cols = ["inspection_id","user_id","assigned_on"];
   $res = save_batch('inspection_assign',$cols,$data);
   close_DB_conn();
   echo json_encode($res);die;

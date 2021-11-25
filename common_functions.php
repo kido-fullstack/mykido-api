@@ -733,7 +733,7 @@ function save_table($tab,$arr)           //---------  [FILED = ARRAY[VALUE1,VALU
     $val_arr = [];
     foreach ($arr as $k => $v) {                                                       //-------   $k = column name ---------
         $keys   .= "`$k`,";                                                            //---------------FOR COLUMNS 
-        $val_arr[] = "'".$v."'";
+        $val_arr[] = "'".str_replace("'", "\'", $v)."'";
         $updt_k .= "`$k` = VALUES(`$k`),";                                             //---------------FOR DUPLICATE UPDATE
     }
     $keys = substr($keys,0, -1);           //------REMOVE LAST comma
@@ -761,7 +761,7 @@ function save_batch($tab,$cols,$vals)           //---------  [FILED = ARRAY[VALU
     }
     //-----VALS-----
     foreach ($vals as $k => $v) {
-        $val_str .= "('".implode("','",$v)."'),";
+        $val_str .= "('".implode("','",str_replace("'", "\'", $v))."'),";
     }
     $keys = substr($keys,0, -1);           //------REMOVE LAST comma
     $updt_k = substr($updt_k,0, -1);       //------REMOVE LAST comma

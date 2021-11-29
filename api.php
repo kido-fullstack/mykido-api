@@ -235,7 +235,7 @@ function get_users($post){
     $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
   }
   // $filter['status'] = ['1','2'];
-  $fields = ['id','name','updated_on','email','is_admin','team','manula_links','status','country'];
+  $fields = ['id','name','updated_on','email','is_admin','team','manula_links','status','level','country'];
   if(isset($filter['id'])){
     $fields = ["*"];
   }

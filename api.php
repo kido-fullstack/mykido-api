@@ -29,6 +29,8 @@ $apis = [
             'upload_file'=>'upload_file',
             'create_new_nursery'=>'create_new_nursery',
             'get_nursery'=>'get_nursery',
+            'create_new_cluster'=>'create_new_cluster',
+            'get_cluster'=>'get_cluster',
 
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
@@ -167,6 +169,22 @@ function create_new_nursery($post){
   echo json_encode($resp);die;
 }
 
+function create_new_cluster($post){
+
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+
+  // print_r($data);die;
+  if(count($data)){
+    // $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
+    // isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
+    $values[] = $data;
+    $resp = save_batch('cluster',$cols,$values);
+  }
+
+  echo json_encode($resp);die;
+}
+
 function update_user_manula_links($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
@@ -235,14 +253,32 @@ function get_nursery($post){
     $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
   }
   // $filter['status'] = ['1','2'];
-  $fields = ['id','name','country','state','city','pincode','lat','long','status'];
+  $fields = ['id','name','cluster_id','state','city','pincode','lat','long','status'];
   if(isset($filter['id'])){
     $fields = ["*"];
   }
   // print_r($filter);die;
   // (isset($filter['password'])) ? $filter['password'] = md5($filter['password']) : false;
   // print_r($filter);die;
-  $inspects = get_where_in_fk('nursery',$fields,$filter);
+  $inspects = get_where_in_fk('all_nursery',$fields,$filter);
+  close_DB_conn();
+  echo json_encode($inspects);die;
+}
+
+function get_cluster($post){
+  $filter = [];
+  if(isset($post['filter'])){
+    $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  }
+  // $filter['status'] = ['1','2'];
+  $fields = ['id','name','country','state','city','status'];
+  if(isset($filter['id'])){
+    $fields = ["*"];
+  }
+  // print_r($filter);die;
+  // (isset($filter['password'])) ? $filter['password'] = md5($filter['password']) : false;
+  // print_r($filter);die;
+  $inspects = get_where_in_fk('cluster',$fields,$filter);
   close_DB_conn();
   echo json_encode($inspects);die;
 }
@@ -368,4 +404,3 @@ function submitted_get_users($post){
   close_DB_conn();
   echo json_encode($inspects);die;
 }
-

@@ -21,6 +21,7 @@ $apis = [
             'assign_users'=>'assign_users',
             'get_users'=>'get_users',
             'get_users_access'=>'get_users_access',
+            'get_user_cluster'=>'get_user_cluster',
             'save_users_access'=>'save_users_access',
             'save_users_creds'=>'save_users_creds',
             'create_new_user'=>'create_new_user',
@@ -31,6 +32,8 @@ $apis = [
             'get_nursery'=>'get_nursery',
             'create_new_cluster'=>'create_new_cluster',
             'get_cluster'=>'get_cluster',
+            'save_cluster_access'=>'save_cluster_access',
+
 
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
@@ -123,6 +126,20 @@ function get_users_access($post){
 
 }
 
+function get_user_cluster($post){
+
+  $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  $filter['status'] = ['1'];
+  $fields = ["*"];
+  // print_r($filter);die;
+  $cluster_access = get_where_in_fk('cluster_assign',$fields,$filter);
+
+  close_DB_conn();
+
+  echo json_encode($cluster_access);die;
+
+}
+
 function update_password($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
@@ -210,6 +227,23 @@ function save_users_access($post){
   $cols = ["user_id","access_name","link","status","username","password"];
 
   $resp = save_batch('user_access',$cols,$data);
+
+  echo json_encode($resp);die;
+}
+
+function save_cluster_access($post){
+
+  $data = count(json_decode($post['user_cluster'],true)) ? json_decode($post['user_cluster'],true) : [];
+  // foreach ($post["users"] as $k => $v) {
+  //   $data[] = ["inspection_id"=> $post["form_id"],"email"=>$v ];
+  // }
+    // print_r($post);die;
+  $where = ["cluster_id" => $post["cluster_id"]];
+  update_fields('cluster_assign',["status" => 0],$where);
+  
+  $cols = ["user_id","cluster_id","status"];
+
+  $resp = save_batch('cluster_assign',$cols,$data);
 
   echo json_encode($resp);die;
 }

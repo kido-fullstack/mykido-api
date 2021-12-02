@@ -22,6 +22,7 @@ $apis = [
             'get_users'=>'get_users',
             'get_users_access'=>'get_users_access',
             'get_user_cluster'=>'get_user_cluster',
+            'get_user_nursery'=>'get_user_nursery',
             'save_users_access'=>'save_users_access',
             'save_users_creds'=>'save_users_creds',
             'create_new_user'=>'create_new_user',
@@ -33,6 +34,8 @@ $apis = [
             'create_new_cluster'=>'create_new_cluster',
             'get_cluster'=>'get_cluster',
             'save_cluster_access'=>'save_cluster_access',
+            'save_nursery_access'=>'save_nursery_access',
+
 
 
         ];
@@ -140,6 +143,20 @@ function get_user_cluster($post){
 
 }
 
+function get_user_nursery($post){
+
+  $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  $filter['status'] = ['1'];
+  $fields = ["*"];
+  // print_r($filter);die;
+  $nursery_assign = get_where_in_fk('nursery_assign',$fields,$filter);
+
+  close_DB_conn();
+
+  echo json_encode($nursery_assign);die;
+
+}
+
 function update_password($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
@@ -244,6 +261,23 @@ function save_cluster_access($post){
   $cols = ["user_id","cluster_id","status"];
 
   $resp = save_batch('cluster_assign',$cols,$data);
+
+  echo json_encode($resp);die;
+}
+
+function save_nursery_access($post){
+
+  $data = count(json_decode($post['user_nursery'],true)) ? json_decode($post['user_nursery'],true) : [];
+  // foreach ($post["users"] as $k => $v) {
+  //   $data[] = ["inspection_id"=> $post["form_id"],"email"=>$v ];
+  // }
+    // print_r($post);die;
+  $where = ["nursery_id" => $post["nursery_id"]];
+  update_fields('nursery_assign',["status" => 0],$where);
+  
+  $cols = ["user_id","nursery_id","status"];
+
+  $resp = save_batch('nursery_assign',$cols,$data);
 
   echo json_encode($resp);die;
 }

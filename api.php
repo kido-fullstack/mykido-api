@@ -1,6 +1,8 @@
 <?php
 // require_once '../model/auth.php';
 // $conn = (new Auth())->conn;
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 include_once 'common_functions.php';
 // printr($_POST);die;
 if(!isset($_POST['api'])){
@@ -48,8 +50,6 @@ if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
 // }
 // require_once '../model/auth.php';
 // $conn = (new Auth())->conn;
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
 require_once 'common_functions.php';
 //--------------API NAME => METHOD ------------------
 return $apis[$_POST['api']]($_POST);

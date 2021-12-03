@@ -1,8 +1,8 @@
 <?php
 // require_once '../model/auth.php';
 // $conn = (new Auth())->conn;
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
 include_once 'common_functions.php';
 // printr($_POST);die;
 if(!isset($_POST['api'])){

@@ -382,7 +382,7 @@ function get_where_in_fk($tabl,$fields,$where,$limit=0){
             $fk_tab_name = $row['REFERENCED_TABLE_NAME'];
             if($fk_tab_name != 'null'){
                 $fk_ids = "'".implode("','",array_keys($v1['vals']))."'";
-                $fk_val_sql = "SELECT `id`,`".$v1['fk_name']."` FROM  $fk_tab_name WHERE `id` in ($fk_ids) AND `is_active` = 1 ";
+                $fk_val_sql = "SELECT `id`,`".$v1['fk_name']."` FROM  $fk_tab_name WHERE `id` in ($fk_ids) ";
                 // print_r($fk_val_sql);die;
                 $fk_val_res = $conn->query($fk_val_sql);
                 while($v3 = mysqli_fetch_assoc($fk_val_res)){

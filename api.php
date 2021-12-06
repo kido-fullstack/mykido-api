@@ -339,14 +339,18 @@ function get_cluster($post){
     $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
   }
   // $filter['status'] = ['1','2'];
-  $fields = ['id','name','country','state','city','status'];
-  if(isset($filter['id'])){
-    $fields = ["*"];
+  if(isset($filter['user_id'])){
+
+    $fields = ['cluster_id','cluster_id.name','cluster_id.country','cluster_id.state','cluster_id.city','cluster_id.status'];
+    $inspects = get_where_in_fk('cluster_assign',$fields,["user_id"=>$filter['user_id'],"status"=>1]);
+
+  }else{
+    $fields = ['id','name','country','state','city','status'];
+    if(isset($filter['id'])){
+      $fields = ["*"];
+    }
+    $inspects = get_where_in_fk('cluster',$fields,$filter);
   }
-  // print_r($filter);die;
-  // (isset($filter['password'])) ? $filter['password'] = md5($filter['password']) : false;
-  // print_r($filter);die;
-  $inspects = get_where_in_fk('cluster',$fields,$filter);
   close_DB_conn();
   echo json_encode($inspects);die;
 }

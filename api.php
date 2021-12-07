@@ -37,9 +37,7 @@ $apis = [
             'get_cluster'=>'get_cluster',
             'save_cluster_access'=>'save_cluster_access',
             'save_nursery_access'=>'save_nursery_access',
-
-
-
+            'get_users_by_cluster_id'=>'get_users_by_cluster_id',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -142,6 +140,19 @@ function get_user_cluster($post){
   echo json_encode($cluster_access);die;
 
 }
+
+function get_users_by_cluster_id($post){
+
+  $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  $filter['status'] = ['1'];
+  $fields = ["*"];
+  // print_r($filter);die;
+  $cluster_access = get_where_in_fk('cluster_assign',$fields,$filter);
+
+  close_DB_conn();
+  echo json_encode($cluster_access);die;
+}
+
 
 function get_user_nursery($post){
 

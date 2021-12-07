@@ -352,8 +352,8 @@ function get_where_in_fk($tabl,$fields,$where,$limit=0){
     $flds = substr($flds,0, -1);
     $fields[0] == '*' ? $flds = '*' : FALSE;
     $sql = "SELECT $flds FROM `$tabl` $wher $lmt";
-    echo $sql;// echo '<br>';
-    die;
+    // echo $sql;// echo '<br>';
+    // die;
     // $creds = json_decode(file_get_contents(".creds"),true);
     // $user = $creds["DB_USER"];$pass = $creds["DB_PASS"];$dbname = $creds["DB_NAME"];
     // $user = "smduser";$pass = "@smduser123#";

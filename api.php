@@ -198,7 +198,7 @@ function create_new_user($post){
 
   if(count($nurs_ids)){
 
-    update_fields('nursery_assign',["status" => 0],["user_id" => $resp]);
+    // update_fields('nursery_assign',["status" => 0],["user_id" => $resp]);
     $cols1 = ["user_id","nursery_id"];
     $values1 = [];
     foreach ($nurs_ids as $k => $v) {

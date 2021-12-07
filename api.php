@@ -197,12 +197,12 @@ function create_new_user($post){
   }
 
   if(count($nurs_ids)){
-
-    // update_fields('nursery_assign',["status" => 0],["user_id" => $resp]);
-    $cols1 = ["user_id","nursery_id"];
+    isset($data["id"]) ? $resp = $data["id"] : FALSE;
+    update_fields('nursery_assign',["status" => 0],["user_id" => $resp]);
+    $cols1 = ["user_id","nursery_id","status"];
     $values1 = [];
     foreach ($nurs_ids as $k => $v) {
-      $values1[] = ["user_id"=>$resp,"nursery_id"=>$v];
+      $values1[] = ["user_id"=>$resp,"nursery_id"=>$v,"status" => 1];
     }
     $nurs = save_batch('nursery_assign',$cols1,$values1);
   }

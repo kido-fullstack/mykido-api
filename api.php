@@ -186,13 +186,26 @@ function create_new_user($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
   $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+  $nurs_ids = count(json_decode($post['nursery_ids'],true)) ? json_decode($post['nursery_ids'],true) : [];
 
-  // print_r($data);die;
+  // print_r($nurs_ids);die;
   if(count($data)){
     // $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
     isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
     $values[] = $data;
     $resp = save_batch('users',$cols,$values);
+  }
+
+  if(count($nurs_ids)){
+
+    $cols1 = ["user_id","nursery_id"];
+
+    $values1 = [];
+
+    foreach ($nurs_ids as $k => $v) {
+      $values1[] = ["user_id"=>$resp,"nursery_id"=>$v];
+    }
+    $nurs = save_batch('nursery_assign',$cols1,$values1);
   }
 
   echo json_encode($resp);die;

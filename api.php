@@ -38,6 +38,7 @@ $apis = [
             'save_cluster_access'=>'save_cluster_access',
             'save_nursery_access'=>'save_nursery_access',
             'get_users_by_cluster_id'=>'get_users_by_cluster_id',
+            'manage_approval_data'=>'manage_approval_data',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -237,6 +238,22 @@ function create_new_cluster($post){
     // isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
     $values[] = $data;
     $resp = save_batch('cluster',$cols,$values);
+  }
+
+  echo json_encode($resp);die;
+}
+
+function manage_approval_data($post){
+
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+
+  // print_r($data);die;
+  if(count($data)){
+    // $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
+    // isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
+    $values[] = $data;
+    $resp = save_batch('approvals',$cols,$values);
   }
 
   echo json_encode($resp);die;

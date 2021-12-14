@@ -39,6 +39,7 @@ $apis = [
             'save_nursery_access'=>'save_nursery_access',
             'get_users_by_cluster_id'=>'get_users_by_cluster_id',
             'manage_approval_data'=>'manage_approval_data',
+            'get_approvals'=>'get_approvals',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -166,6 +167,20 @@ function get_user_nursery($post){
   close_DB_conn();
 
   echo json_encode($nursery_assign);die;
+
+}
+
+function get_approvals($post){
+
+  $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  $filter['status'] = ['1'];
+  $fields = ["*"];
+  // print_r($filter);die;
+  $approvals = get_where_in_fk('approvals',$fields,$filter);
+
+  close_DB_conn();
+
+  echo json_encode($approvals);die;
 
 }
 

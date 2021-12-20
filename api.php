@@ -173,7 +173,7 @@ function get_user_nursery($post){
 function get_approvals($post){
 
   $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
-  $filter['status'] = ['1'];
+  $filter['status'] = ['1','2','3'];
   $fields = ["*"];
   // print_r($filter);die;
   $approvals = get_where_in_fk('approvals',$fields,$filter);

@@ -449,11 +449,20 @@ function save_inspect($post){
 //---------------------------------------- GET LAST ORDER ----------------
 function assign_users($post){
   $now =  date('Y-m-d H:i:s');
+  $usr_emails = [];
   foreach ($post["users"] as $k => $v) {
-    $data[] = ["inspection_id"=> $post["form_id"],"user_id"=>$v,"assigned_on"=>$now];
+    $data[] = ["inspection_id"=> $post["form_id"],"user_id"=>$k,"assigned_on"=>$now];
+    $usr_emails[] = $v;
   }
+  $eml_det =[
+    "subject"=>"Inspection Assinged",
+    "message"=>"Kindly login to mykido dashboard and check inspection.",
+    "users"=>$usr_emails
+  ];
+  // print_r($eml_det);die;
   $cols = ["inspection_id","user_id","assigned_on"];
   $res = save_batch('inspection_assign',$cols,$data);
+  mykido_email($eml_det);
   close_DB_conn();
   echo json_encode($res);die;
 }
@@ -468,6 +477,20 @@ function save_tab($post){
   echo json_encode($res);die;
 }
 
+
+//---------------------------------------- GET LAST ORDER ----------------
+function mykido_email($post){
+  require_once __DIR__ . '/email/send_email.php';  //-------  php_mailer() defined here.
+  // print_r($post);die;
+  // $data =[
+  //   "to"=>"ziauddin.sayyed@kido.school",
+  //   "receiver_name"=>"Mohamed Maseeh",
+  //   "subject"=>"Kido Inspection Request",
+  //   "message"=>"Test"
+  // ];
+  // print_r($post);die;
+  php_mailer($post);
+}
 
 //---------------------------------------- GET LAST ORDER ----------------
 function send_email($post){

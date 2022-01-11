@@ -283,8 +283,16 @@ function update_user_manula_links($post){
     // $cols = ["id","manula_links"];
     // $values[] = $data;
     $where = ["id"=>$data["id"]];
-    unset($data['id']);
+    unset($data['id'],$data['email']);
+    // $uptd_data=["manula_links"=>$data["manula_links"]];
     $resp = update_fields('users',$data,$where);
+    if($post['notify_email']){
+      $eml_det =[ "users"=>[$data['email']],
+      "subject"=>"Lesson Plans Assinged",
+      "message"=>"Kindly login to mykido dashboard and check Lesson Plans."
+        ];
+      mykido_email($eml_det);
+    }
   }
   echo json_encode($resp);die;
 }

@@ -852,12 +852,15 @@ function save_doc($doc,$doc_dir){
         // print_r($move_to);
         file_exists($move_to) ? rename($move_to,$doc_dir."/".$newfilename.'_'.$ms.$ext) : FALSE;
         $file_type=$doc['type'];
-        if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="image/jpeg" ||  $file_type=="image/png" || $file_type=="application/vnd.ms-excel") {
+        // print_r($ext);
+        // die;
+        $ext_types = ['.jpg', '.jpeg', '.bmp', '.gif', '.png', '.svg', '.pdf', '.doc', '.docx', '.xls', '.xlsx'];
+        // if ($file_type=="application/pdf" || $file_type=="image/gif" || $file_type=="image/jpeg" ||  $file_type=="image/png" || $file_type=="application/vnd.ms-excel") {
+        if(in_array($ext,$ext_types)){            
             if(move_uploaded_file($doc['tmp_name'], $move_to)){
-                // return substr($move_to, 3);}
                 return $move_to;}
             else {return '';}
-            }
+        }
         else {
              echo "You may only upload PDFs, EXCEL, PNG,JPEGs or GIF files.<br>"; }
     }

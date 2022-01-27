@@ -40,6 +40,7 @@ $apis = [
             'get_users_by_cluster_id'=>'get_users_by_cluster_id',
             'manage_approval_data'=>'manage_approval_data',
             'get_approvals'=>'get_approvals',
+            'cluster_admin_analytics'=>'cluster_admin_analytics',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -561,4 +562,19 @@ function submitted_get_users($post){
   $inspects = get_where_in_fk('inspection_assign',$fields,$filter,$limit);
   close_DB_conn();
   echo json_encode($inspects);die;
+}
+
+function cluster_admin_analytics($post){
+  $sql = "
+  SELECT COUNT(DISTINCT `nursery`.`id`) AS 'nurseries' , COUNT(DISTINCT `user_id`) AS 'users'
+  ,(SELECT count(`inspection`.`id`) FROM `inspection` WHERE `team` = '1' AND `status` = '1') AS 'inspections'
+  FROM `nursery`
+  JOIN `nursery_assign` ON `nursery`.`id` = `nursery_assign`.`nursery_id`
+  WHERE `cluster_id` = ".$post["cluster_id"]."
+  AND `nursery`.`status` = '1' AND `nursery_assign`.`status` = '1'
+  ;"
+  ;
+  $res = get_query_result($sql);
+  close_DB_conn();
+  echo json_encode($res);die;
 }

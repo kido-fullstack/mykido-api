@@ -41,6 +41,7 @@ $apis = [
             'manage_approval_data'=>'manage_approval_data',
             'get_approvals'=>'get_approvals',
             'cluster_admin_analytics'=>'cluster_admin_analytics',
+            'country_admin_analytics'=>'country_admin_analytics',            
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -572,8 +573,20 @@ function cluster_admin_analytics($post){
   JOIN `nursery_assign` ON `nursery`.`id` = `nursery_assign`.`nursery_id`
   WHERE `cluster_id` = ".$post["cluster_id"]."
   AND `nursery`.`status` = '1' AND `nursery_assign`.`status` = '1'
-  ;"
-  ;
+  ;";
+  $res = get_query_result($sql);
+  close_DB_conn();
+  echo json_encode($res);die;
+}
+
+function country_admin_analytics($post){
+  $sql = "
+  SELECT `cluster`.`name` AS 'Cluster',`region` ,`nursery`.`name` AS 'Nursery',`nursery_assign`.`user_id`
+  FROM `cluster` 
+  LEFT JOIN `nursery` on `nursery`.`cluster_id` = `cluster`.`id`
+  LEFT JOIN `nursery_assign` on `nursery`.`id` = `nursery_assign`.`nursery_id`
+  where `country` = ".$post["country_id"]." AND `cluster`.`status` = '1' AND (`nursery_assign`.`status` IS NULL OR `nursery_assign`.`status` = '1')
+  ;";
   $res = get_query_result($sql);
   close_DB_conn();
   echo json_encode($res);die;

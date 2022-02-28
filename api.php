@@ -568,7 +568,7 @@ function submitted_get_users($post){
 function cluster_admin_analytics($post){
   $sql = "
   SELECT COUNT(DISTINCT `nursery`.`id`) AS 'nurseries' , COUNT(DISTINCT `user_id`) AS 'users'
-  ,(SELECT count(`inspection`.`id`) FROM `inspection` WHERE `team` = '1' AND `status` = '1') AS 'inspections'
+  ,(SELECT count(`inspection`.`id`) FROM `inspection` WHERE `team` = ".$post["country"]." AND `status` = '1') AS 'inspections'
   FROM `nursery`
   JOIN `nursery_assign` ON `nursery`.`id` = `nursery_assign`.`nursery_id`
   WHERE `cluster_id` = ".$post["cluster_id"]."

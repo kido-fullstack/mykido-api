@@ -372,9 +372,9 @@ function get_users($post){
   if(isset($filter['id'])){
     $fields = ["*"];
   }
-  print_r($_SERVER);die;
+  // print_r($_SERVER);die;
 
-  if($_SERVER['HTTP_HOST'] == "kidovillage"){
+  if(strpos($_SERVER['HTTP_ORIGIN'],"kidovillage.com") !== false ){
     $filter['country'] =1;
   }
 
@@ -382,7 +382,7 @@ function get_users($post){
   // print_r($filter);die;
   $user_det = get_where_in_fk('users',$fields,$filter);
 
-  if($_SERVER['HTTP_HOST'] == "kido"){
+  if(strpos($_SERVER['HTTP_ORIGIN'],"kido.school") !== false ){
     foreach ($user_det as $k => $v) {
       if($v['country'] == 1){
         unset($user_det[$k]);

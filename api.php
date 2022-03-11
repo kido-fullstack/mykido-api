@@ -372,7 +372,7 @@ function get_users($post){
   if(isset($filter['id'])){
     $fields = ["*"];
   }
-  // print_r($_SERVER);die;
+  print_r($_SERVER);die;
 
   if($_SERVER['HTTP_HOST'] == "kidovillage"){
     $filter['country'] =1;

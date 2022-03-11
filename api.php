@@ -372,12 +372,26 @@ function get_users($post){
   if(isset($filter['id'])){
     $fields = ["*"];
   }
-  // print_r($filter);die;
+  print_r($_SERVER);die;
+
+  if($_SERVER['HTTP_HOST'] == "kidovillage"){
+    $filter['country'] =1;
+  }
+
   (isset($filter['password'])) ? $filter['password'] = md5($filter['password']) : false;
   // print_r($filter);die;
-  $inspects = get_where_in_fk('users',$fields,$filter);
+  $user_det = get_where_in_fk('users',$fields,$filter);
+
+  if($_SERVER['HTTP_HOST'] == "kido"){
+    foreach ($user_det as $k => $v) {
+      if($v['country'] == 1){
+        unset($user_det[$k]);
+      }
+    }
+  }
+
   close_DB_conn();
-  echo json_encode($inspects);die;
+  echo json_encode($user_det);die;
 }
 
 function get_nursery($post){

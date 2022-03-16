@@ -40,6 +40,7 @@ $apis = [
             'get_users_by_cluster_id'=>'get_users_by_cluster_id',
             'manage_approval_data'=>'manage_approval_data',
             'get_approvals'=>'get_approvals',
+            'get_same_nursery_users'=>'get_same_nursery_users',
             'cluster_admin_analytics'=>'cluster_admin_analytics',
             'country_admin_analytics'=>'country_admin_analytics',            
         ];
@@ -486,7 +487,10 @@ function assign_users($post){
   // print_r($eml_det);die;
   $cols = ["inspection_id","user_id","assigned_on"];
   $res = save_batch('inspection_assign',$cols,$data);
-  mykido_email($eml_det);
+
+  if(strpos($_SERVER['HTTP_ORIGIN'],"localhost") == false ){
+    mykido_email($eml_det);
+  }
   close_DB_conn();
   echo json_encode($res);die;
 }
@@ -578,6 +582,22 @@ function submitted_get_users($post){
   close_DB_conn();
   echo json_encode($inspects);die;
 }
+
+function get_same_nursery_users($post){
+
+  $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  $sql = "
+  SELECT `user_id` FROM `nursery_assign`
+  WHERE `nursery_id` in (SELECT `nursery_id` FROM `nursery_assign` WHERE `user_id` = '".$filter['user_id']."')
+  AND `status` = '1'
+  ;";
+  $qres = array_column(get_query_result($sql),"user_id");
+  // print_r($sql);die;
+  $res = get_users(["filter"=>json_encode(["id"=>$qres])]);
+  close_DB_conn();
+  echo json_encode($res);die;
+}
+
 
 function cluster_admin_analytics($post){
   $sql = "

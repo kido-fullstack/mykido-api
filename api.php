@@ -1,8 +1,8 @@
 <?php
 // require_once '../model/auth.php';
 // $conn = (new Auth())->conn;
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 include_once 'common_functions.php';
 // printr($_POST);die;
 if(!isset($_POST['api'])){
@@ -452,7 +452,7 @@ function get_user_inspect($post){
   // if(isset($filter['id'])){
   //   $fields = ["*"];
   // }
-  $fields = ['id','title','added_on','status'];
+  $fields = ['id','title','added_on','status','schedule'];
   $inspects = get_where_in_fk('inspection',$fields,$filtids);
   close_DB_conn();
   echo json_encode($inspects);die;

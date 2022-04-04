@@ -785,6 +785,7 @@ function update_fields($tab,$vals,$where){           //---------  [FILED = ARRAY
     }
     $wher = substr($wher,0, -4);
     //-----VALS-----
+    $val_str = "";
     foreach ($vals as $k => $v) {
         $val_str .= "`$k` = '$v' AND ";
     }
@@ -795,7 +796,8 @@ function update_fields($tab,$vals,$where){           //---------  [FILED = ARRAY
     // echo $str;die;
     $conn = $GLOBALS['conn'];
     //-------------------QUERY IN DB------------------
-    $res = (!mysqli_query($conn,$str)) ? "Error description: " . mysqli_error($conn) : $where["id"];
+    // print_r($where);die;
+    $res = (!mysqli_query($conn,$str)) ? "Error description: " . mysqli_error($conn) : $where;
     // mysqli_close($conn);
     // print_r($vals);die;
     return $res;

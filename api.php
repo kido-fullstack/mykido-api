@@ -205,11 +205,15 @@ function create_new_user($post){
 
   $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
   $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
-  $nurs_ids = count(json_decode($post['nursery_ids'],true)) ? json_decode($post['nursery_ids'],true) : [];
-
+  $nurs_ids = isset($post['nursery_ids']) ? json_decode($post['nursery_ids'],true) : [];
+  // $nurs_ids = count(json_decode($post['nursery_ids'],true)) ? json_decode($post['nursery_ids'],true) : [];
   // print_r($nurs_ids);die;
   if(count($data)){
     // $cols = ["id","name","email","is_admin","team","password","manula_links","status"];
+    if(!isset($data["id"]) && isset($data["email"])){
+      $exist_usr = get_where_in_fk('users',["id"],["email"=>$data["email"]]);
+      if(count($exist_usr)){echo "User with same email exisits.";die;}
+    }
     isset($data["password"]) ? $data["password"] = md5($data["password"]) : FALSE ;
     $values[] = $data;
     $resp = save_batch('users',$cols,$values);

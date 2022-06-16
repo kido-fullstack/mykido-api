@@ -16,7 +16,7 @@ function php_mailer($data){
         $mail->isSMTP();$mail->Host = 'smtp.gmail.com';$mail->SMTPAuth = true;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;$mail->Port = 587;
         $sender = "enquiry@kidovillage.com";
-        $passwd = "kv@enquiry";
+        $passwd = "kv@Enqu!ry";
         // $to = "ziauddin.sayyed@kido.school";
         // $cc = "fauzan.falke@kido.school";
         // $rece_nm = "Receiver Name";

@@ -189,13 +189,16 @@ function get_approvals($post){
 
 function update_password($post){
 
-  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $data = json_decode($post['data'],true) ? json_decode($post['data'],true) : [];
   // print_r($data);die;
   if(count($data)){
-    $cols = ["id","name","email","password"];
+    // $cols = ["id","name","email","password"];
     $data["password"] = md5($data["password"]);
-    $values[] = $data;
-    $resp = save_batch('users',$cols,$values);
+    // $values[] = $data;
+    // $resp = save_batch('users',$cols,$values);
+    $id = $data["id"];
+    unset($data['id']);
+    $resp = update_fields('users',$data,["id" => $id]);
   }
 
   echo json_encode($resp);die;

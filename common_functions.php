@@ -776,7 +776,7 @@ function save_batch($tab,$cols,$vals)           //---------  [FILED = ARRAY[VALU
     // mysqli_close($conn);
     return $res;
 }
-//---------------------------  IMAGE UPLOAD FUNCTION ---------------
+//---------------------------  UPDATE FUNCTION ---------------
 function update_fields($tab,$vals,$where){           //---------  [FILED = ARRAY[VALUE1,VALUE2]]
 
     $wher = (count($where)) ? 'WHERE ' : '';

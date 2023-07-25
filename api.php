@@ -42,7 +42,8 @@ $apis = [
             'get_approvals'=>'get_approvals',
             'get_same_nursery_users'=>'get_same_nursery_users',
             'cluster_admin_analytics'=>'cluster_admin_analytics',
-            'country_admin_analytics'=>'country_admin_analytics',            
+            'country_admin_analytics'=>'country_admin_analytics',
+            'user_submit_inspect'=>'user_submit_inspect',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -502,6 +503,37 @@ function assign_users($post){
   echo json_encode($res);die;
 }
 
+//---------------------------------------- SUBMIT INSPECTION ----------------
+function user_submit_inspect($post){
+  $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];
+  $data = count(json_decode($post['data'],true)) ? json_decode($post['data'],true) : [];
+  $tbl_name = $post["tbl_name"];
+  // print_r($post);die;
+  $res = save_batch($tbl_name,$cols,$data);
+  // close_DB_conn();
+  $eml_det =[
+    "subject"=>"Inspection Submitted by ".$post["username"],
+    "message"=>"Inspection : ".$post["inspname"],
+    "users"=>["sayyed1@kido.school"]
+  ];
+  // print_r($res);die;
+  // if(strpos($_SERVER['HTTP_ORIGIN'],"localhost") == false ){
+  try {
+    // mykido_email($eml_det);
+
+    $command = 'python3 mail.py "'.$post["username"].'" "'.$post["inspname"].'" > /dev/null 2>&1 &';  
+    $command = 'nohup ' . $command;
+    // echo $command;
+    exec($command,$out,$ret);
+    // sys.argv[i]
+  } catch (\Throwable $th) {
+    throw $th;
+  }
+  // }
+  close_DB_conn();
+  echo json_encode($res);die;
+
+}
 //---------------------------------------- SAVE TO TABLE COMMON ----------------
 function save_tab($post){
   $cols = count(json_decode($post['cols'],true)) ? json_decode($post['cols'],true) : [];

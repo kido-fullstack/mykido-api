@@ -16,7 +16,7 @@ function php_mailer($data){
         $mail->isSMTP();$mail->Host = 'smtp.gmail.com';$mail->SMTPAuth = true;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;$mail->Port = 587;
         $sender = "enquiry@kidovillage.com";
-        $passwd = "AP@Kido_u6123#";
+        $passwd = "AP@Kido_u6123#1";
         // $passwd = "kv@Enqu!ry";
         // $to = "ziauddin.sayyed@kido.school";
         // $cc = "fauzan.falke@kido.school";
@@ -36,7 +36,8 @@ function php_mailer($data){
         $temp = $mail->send();
         // echo "Email message sent.";
     } catch (Exception $e) {
-        echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
+        // echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
+        return true;
     }
 }
 

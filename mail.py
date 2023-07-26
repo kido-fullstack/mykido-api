@@ -23,7 +23,7 @@ def send_email(sender_name, sender_email, receiver_email, subject, body, smtp_se
             s.sendmail(sender_email, dest, email_text)
         s.quit()
     except Exception as e:
-        print(f"Failed to send email. Error: {e}")
+        print("Failed to send email. Error:"+e)
 
 # Replace these with your own values
 sender_name = "Mykido Inspection"

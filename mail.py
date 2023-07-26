@@ -7,7 +7,7 @@ def send_email(sender_name, sender_email, receiver_email, subject, body, smtp_se
     email_body = MIMEText(body, 'plain', 'utf-8')
     # Create a MIMEMultipart object for the email
     email_message = MIMEMultipart()
-    email_message['From'] = f'{sender_name} <{sender_email}>'
+    email_message['From'] = sender_name+"<"+sender_email+">"
     email_message['To'] = "mykido@kido.school"
     email_message['Subject'] = subject
 

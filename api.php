@@ -522,8 +522,8 @@ function user_submit_inspect($post){
     // mykido_email($eml_det);
 
     $command = 'python3 mail.py "'.$post["username"].'" "'.$post["inspname"].'" > /dev/null 2>&1 &';  
-    // $command = 'nohup ' . $command;
-    echo $command;
+    $command = 'nohup ' . $command;
+    // echo $command;
     exec($command,$out,$ret);
     // sys.argv[i]
   } catch (\Throwable $th) {

@@ -28,7 +28,7 @@ def send_email(sender_name, sender_email, receiver_email, subject, body, smtp_se
 # Replace these with your own values
 sender_name = "Mykido Inspection"
 sender_email = "enquiry@kidovillage.com"
-receiver_email = ["ziauddin.sayyed@kido.school","sayyed@kido.school"]
+receiver_email = ["ziauddin.sayyed@kido.school","anjali.motiani@kido.school"]
 subject = "Inspection submitted by "+sys.argv[1]
 body = sys.argv[2]
 smtp_server = "smtp.gmail.com"

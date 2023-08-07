@@ -44,6 +44,7 @@ $apis = [
             'cluster_admin_analytics'=>'cluster_admin_analytics',
             'country_admin_analytics'=>'country_admin_analytics',
             'user_submit_inspect'=>'user_submit_inspect',
+            'get_inspect_for_verify'=>'get_inspect_for_verify',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -663,4 +664,12 @@ function country_admin_analytics($post){
   $res = get_query_result($sql);
   close_DB_conn();
   echo json_encode($res);die;
+}
+
+function get_inspect_for_verify($post){
+  // print_r($post);die;
+  $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
+  $inspects = get_where_in_fk('get_inspect_for_verify',"*",$filter);
+  close_DB_conn();
+  echo json_encode($inspects);die;
 }

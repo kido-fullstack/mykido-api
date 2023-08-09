@@ -669,7 +669,7 @@ function country_admin_analytics($post){
 function get_inspect_for_verify($post){
   // print_r($post);die;
   $filter = count(json_decode($post['filter'],true)) ? json_decode($post['filter'],true) : [];
-  $inspects = get_where_in_fk('get_inspect_for_verify',"*",$filter);
+  $inspects = get_where_in_fk('get_inspect_for_verify',["*"],$filter);
   close_DB_conn();
   echo json_encode($inspects);die;
 }

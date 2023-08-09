@@ -45,6 +45,7 @@ $apis = [
             'country_admin_analytics'=>'country_admin_analytics',
             'user_submit_inspect'=>'user_submit_inspect',
             'get_inspect_for_verify'=>'get_inspect_for_verify',
+            'update_verify_inspect'=>'update_verify_inspect',
         ];
 //----------------------INVALID API ENDPINT CHECK---------------
 if(!in_array($_POST['api'],$apis)){return print_r("Api name is not defined.");}
@@ -673,3 +674,22 @@ function get_inspect_for_verify($post){
   close_DB_conn();
   echo json_encode($inspects);die;
 }
+
+
+function update_verify_inspect($post){
+
+  $data = json_decode($post['data'],true) ? json_decode($post['data'],true) : [];
+  // print_r($data);die;
+  if(count($data)){
+    // $cols = ["id","name","email","password"];
+    // $data["password"] = md5($data["password"]);
+    // $values[] = $data;
+    // $resp = save_batch('users',$cols,$values);
+    $id = $data["id"];
+    unset($data['id']);
+    $resp = update_fields('inspection_assign',$data,["id" => $id]);
+  }
+
+  echo json_encode($resp);die;
+}
+
